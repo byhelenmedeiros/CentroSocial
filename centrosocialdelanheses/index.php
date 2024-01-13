@@ -43,4 +43,7 @@
     <?php wp_head(); ?>
 </head>
 <body <?php body_class(); ?>>
+    <?php get_template_part('components/header'); ?>
+   
+
    
