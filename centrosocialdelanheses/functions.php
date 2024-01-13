@@ -176,3 +176,40 @@ $wp_customize->add_section('nossa_instituicao_settings', array(
 
 add_action('customize_register', 'theme_customizer_settings');
 
+
+
+// Registrar um tipo de postagem personalizado para Testemunhos
+function registrar_tipo_testemunhos() {
+    $labels = array(
+        'name'                  => _x('Testemunhos', 'Nome geral do tipo de postagem'),
+        'singular_name'         => _x('Testemunho', 'Nome singular do tipo de postagem'),
+        'add_new'               => _x('Adicionar Novo', 'Adicionar novo testemunho'),
+        'add_new_item'          => __('Adicionar Novo Testemunho'),
+        'edit_item'             => __('Editar Testemunho'),
+        'new_item'              => __('Novo Testemunho'),
+        'view_item'             => __('Ver Testemunho'),
+        'search_items'          => __('Buscar Testemunhos'),
+        'not_found'             => __('Nenhum Testemunho encontrado'),
+        'not_found_in_trash'    => __('Nenhum Testemunho encontrado na lixeira'),
+        'parent_item_colon'     => '',
+        'menu_name'             => 'Testemunhos'
+    );
+
+    $args = array(
+        'labels'                => $labels,
+        'public'                => true,
+        'publicly_queryable'    => true,
+        'show_ui'               => true,
+        'show_in_menu'          => true,
+        'query_var'             => true,
+        'rewrite'               => array('slug' => 'testemunhos'),
+        'capability_type'       => 'post',
+        'has_archive'           => true,
+        'hierarchical'          => false,
+        'menu_position'         => null,
+        'supports'              => array('title', 'editor', 'thumbnail'),
+    );
+
+    register_post_type('testemunhos', $args);
+}
+add_action('init', 'registrar_tipo_testemunhos');
