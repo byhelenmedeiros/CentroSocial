@@ -1,12 +1,14 @@
 <?php
 
+// Adiciona suporte a logotipo personalizado
 add_theme_support('custom-logo');
 
-// Registro de navegação principal
+// Registra a navegação principal
 register_nav_menus(array(
     'primary' => esc_html__('Primary Menu', 'centrosocial'),
 ));
 
+// Carrega os recursos do tema (estilos e scripts)
 function carregar_recursos_tema() {
     // Estilos
     wp_enqueue_style('bootstrap', get_template_directory_uri() . '/assets/bootstrap/css/bootstrap.min.css', array(), '1.0', 'all');
@@ -20,7 +22,7 @@ function carregar_recursos_tema() {
 
 add_action('wp_enqueue_scripts', 'carregar_recursos_tema');
 
-
+// Configurações do Personalizador do Tema
 function theme_customizer_settings($wp_customize) {
     // Seção Header
     $wp_customize->add_section('header_settings', array(
@@ -28,75 +30,108 @@ function theme_customizer_settings($wp_customize) {
         'priority' => 30,
     ));
 
-    // Configuração do Subtítulo
-    $wp_customize->add_setting('header_subtitle', array(
-        'default' => 'desde 2018',
+    // Configurações do Cabeçalho
+    $configuracoes_cabecalho = array(
+        'header_subtitle' => 'Subtítulo do Cabeçalho',
+        'header_title' => 'Título do Cabeçalho',
+        'header_button1_text' => 'Texto do Botão 1 do Cabeçalho',
+        'header_button1_link' => 'Link do Botão 1 do Cabeçalho',
+        'header_button2_text' => 'Texto do Botão 2 do Cabeçalho',
+        'header_button2_link' => 'Link do Botão 2 do Cabeçalho',
+    );
+
+    foreach ($configuracoes_cabecalho as $setting => $label) {
+        $wp_customize->add_setting($setting, array(
+            'default' => '',
+            'sanitize_callback' => ($setting === 'header_button1_link' || $setting === 'header_button2_link') ? 'esc_url_raw' : 'sanitize_text_field',
+        ));
+
+        $wp_customize->add_control($setting, array(
+            'label' => __($label, 'centrosocial'),
+            'section' => 'header_settings',
+            'type' => ($setting === 'header_button1_link' || $setting === 'header_button2_link') ? 'url' : 'text',
+        ));
+    }
+
+    
+    // Seção Respostas Sociais
+    $wp_customize->add_section('respostas_sociais_section', array(
+        'title' => __('Respostas Sociais', 'centrosocial'),
+        'priority' => 30,
+    ));
+
+    // Configuração do ícone da Creche
+    $wp_customize->add_setting('creche_icon', array(
+        'default' => 'fas fa-child', // Ícone padrão
         'sanitize_callback' => 'sanitize_text_field',
     ));
 
-    $wp_customize->add_control('header_subtitle', array(
-        'label' => __('Subtítulo do Cabeçalho', 'centrosocial'),
-        'section' => 'header_settings',
+    $wp_customize->add_control('creche_icon', array(
+        'label' => __('Ícone da Creche', 'centrosocial'),
+        'section' => 'respostas_sociais_section',
         'type' => 'text',
     ));
 
-    // Configuração do Título
-    $wp_customize->add_setting('header_title', array(
-        'default' => 'Centro Paroquial e Social Lanheses',
-        'sanitize_callback' => 'sanitize_text_field',
+    // Configuração da cor do botão da Creche
+    $wp_customize->add_setting('creche_button_color', array(
+        'default' => '#ff6600', // Cor padrão
+        'sanitize_callback' => 'sanitize_hex_color',
     ));
 
-    $wp_customize->add_control('header_title', array(
-        'label' => __('Título do Cabeçalho', 'centrosocial'),
-        'section' => 'header_settings',
-        'type' => 'text',
-    ));
+    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'creche_button_color', array(
+        'label' => __('Cor do Botão da Creche', 'centrosocial'),
+        'section' => 'respostas_sociais_section',
+    )));
 
-    // Configuração do Botão 1
-    $wp_customize->add_setting('header_button1_text', array(
-        'default' => 'Quem somos',
-        'sanitize_callback' => 'sanitize_text_field',
-    ));
 
-    $wp_customize->add_control('header_button1_text', array(
-        'label' => __('Texto do Botão 1 do Cabeçalho', 'centrosocial'),
-        'section' => 'header_settings',
-        'type' => 'text',
-    ));
+$wp_customize->add_section('respostas_sociais_settings', array(
+    'title' => __('Configurações de Respostas Sociais', 'centrosocial'),
+    'priority' => 30,
+));
 
-    $wp_customize->add_setting('header_button1_link', array(
-        'default' => '#',
+$items = array(
+    'creche' => 'Creche',
+    'estrutura_residencial' => 'Estrutura Residencial',
+    'centro_de_dia' => 'Centro de Dia',
+    'apoio_domiciliario' => 'Apoio Domiciliário',
+);
+
+foreach ($items as $item_key => $item_title) {
+    // Configuração da imagem
+    $wp_customize->add_setting($item_key . '_image', array(
         'sanitize_callback' => 'esc_url_raw',
     ));
 
-    $wp_customize->add_control('header_button1_link', array(
-        'label' => __('Link do Botão 1 do Cabeçalho', 'centrosocial'),
-        'section' => 'header_settings',
-        'type' => 'url',
-    ));
+    $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, $item_key . '_image', array(
+        'label' => __('Imagem para ' . $item_title, 'centrosocial'),
+        'section' => 'respostas_sociais_settings',
+        'settings' => $item_key . '_image',
+    )));
 
-    // Configuração do Botão 2
-    $wp_customize->add_setting('header_button2_text', array(
-        'default' => 'Entre em Contato',
-        'sanitize_callback' => 'sanitize_text_field',
-    ));
-
-    $wp_customize->add_control('header_button2_text', array(
-        'label' => __('Texto do Botão 2 do Cabeçalho', 'centrosocial'),
-        'section' => 'header_settings',
-        'type' => 'text',
-    ));
-
-    $wp_customize->add_setting('header_button2_link', array(
-        'default' => '#',
+    // Configuração do link
+    $wp_customize->add_setting($item_key . '_link', array(
         'sanitize_callback' => 'esc_url_raw',
     ));
 
-    $wp_customize->add_control('header_button2_link', array(
-        'label' => __('Link do Botão 2 do Cabeçalho', 'centrosocial'),
-        'section' => 'header_settings',
+    $wp_customize->add_control($item_key . '_link', array(
+        'label' => __('Link para ' . $item_title, 'centrosocial'),
+        'section' => 'respostas_sociais_settings',
         'type' => 'url',
     ));
+
+    // Configuração da cor do botão
+    $wp_customize->add_setting($item_key . '_button_color', array(
+        'default' => '#ff6600', // Adicione a cor padrão desejada
+        'sanitize_callback' => 'sanitize_hex_color',
+    ));
+
+    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, $item_key . '_button_color', array(
+        'label' => __('Cor do botão para ' . $item_title, 'centrosocial'),
+        'section' => 'respostas_sociais_settings',
+    )));
+}
+
 }
 
 add_action('customize_register', 'theme_customizer_settings');
+

@@ -1,4 +1,4 @@
-<!-- header -->
+<html>
 <div class="top-header-area" id="sticker">
     <div class="container">
         <div class="row">
@@ -50,9 +50,9 @@
 <!-- hero area -->
 <div class="hero-area hero-bg">
     <div class="container">
-        <div class="row">
-            <div class="col-lg-9 offset-lg-2 text-center">
-                <div class="hero-text">
+    <div class="row text-center">
+    <div class="col-lg-12">
+        <div class="hero-text">
                     <div class="hero-text-tablecell">
                         <p class="subtitle"><?php echo esc_html(get_theme_mod('hero_subtitle', 'desde 2018')); ?></p>
                         <h1><?php echo esc_html(get_theme_mod('hero_title', 'Centro Paroquial e Social Lanheses')); ?></h1>
@@ -67,3 +67,4 @@
     </div>
 </div>
 <!-- end hero area -->
+</html>

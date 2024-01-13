@@ -40,10 +40,7 @@
     <!-- responsive -->
     <link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/assets/css/responsive.css">
 
-    <?php wp_head(); ?>
-</head>
-<body <?php body_class(); ?>>
+    </head>
+<body>
     <?php get_template_part('components/header'); ?>
-   
-
-   
+    <?php get_template_part('components/respostassociais'); ?>
