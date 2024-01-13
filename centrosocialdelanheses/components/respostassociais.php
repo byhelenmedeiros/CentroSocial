@@ -20,25 +20,25 @@
                     'title' => 'Creche',
                 ),
 
-                'estruturaresidencial' => array(
-                    'icon' => get_theme_mod('estrutura_icon', 'fas fa-child'),
-                    'button_color' => get_theme_mod('estrutura_button_color', '#ff6600'),
+                'estrutura_residencial' => array(
+                    'icon' => get_theme_mod('estrutura_residencial_icon', 'fas fa-child'),
+                    'button_color' => get_theme_mod('estrutura_residencial_button_color', '#ff6600'),
                     'link' => 'estrutura.html',
                     'title' => 'Estrutura Residencial',
                 ),
 
 
-                'estruturaresidencial' => array(
-                    'icon' => get_theme_mod('estrutura_icon', 'fas fa-child'),
-                    'button_color' => get_theme_mod('estrutura_button_color', '#ff6600'),
-                    'link' => 'estrutura.html',
-                    'title' => 'Estrutura Residencial',
+                'centro_de_dia' => array(
+                    'icon' => get_theme_mod('centro_de_dia_icon', 'fas fa-child'),
+                    'button_color' => get_theme_mod('centrodedia_button_color', '#ff6600'),
+                    'link' => 'CentrodeDia.html',
+                    'title' => 'Centro de Dia',
                 ),
-                'estruturaresidencial' => array(
-                    'icon' => get_theme_mod('estrutura_icon', 'fas fa-child'),
-                    'button_color' => get_theme_mod('estrutura_button_color', '#ff6600'),
-                    'link' => 'estrutura.html',
-                    'title' => 'Estrutura Residencial',
+                'apoio_domiciliario' => array(
+                    'icon' => get_theme_mod('apoio_domiciliario_icon', 'fas fa-child'),
+                    'button_color' => get_theme_mod('apoio_domiciliario_button_color', '#ff6600'),
+                    'link' => 'adomicilio.html',
+                    'title' => 'Apoio Domiciliário',
                 ),
                 
             );

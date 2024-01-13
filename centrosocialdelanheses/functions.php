@@ -53,35 +53,6 @@ function theme_customizer_settings($wp_customize) {
         ));
     }
 
-    
-    // Seção Respostas Sociais
-    $wp_customize->add_section('respostas_sociais_section', array(
-        'title' => __('Respostas Sociais', 'centrosocial'),
-        'priority' => 30,
-    ));
-
-    // Configuração do ícone da Creche
-    $wp_customize->add_setting('creche_icon', array(
-        'default' => 'fas fa-child', // Ícone padrão
-        'sanitize_callback' => 'sanitize_text_field',
-    ));
-
-    $wp_customize->add_control('creche_icon', array(
-        'label' => __('Ícone da Creche', 'centrosocial'),
-        'section' => 'respostas_sociais_section',
-        'type' => 'text',
-    ));
-
-    // Configuração da cor do botão da Creche
-    $wp_customize->add_setting('creche_button_color', array(
-        'default' => '#ff6600', // Cor padrão
-        'sanitize_callback' => 'sanitize_hex_color',
-    ));
-
-    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'creche_button_color', array(
-        'label' => __('Cor do Botão da Creche', 'centrosocial'),
-        'section' => 'respostas_sociais_section',
-    )));
 
 
 $wp_customize->add_section('respostas_sociais_settings', array(
@@ -130,6 +101,36 @@ foreach ($items as $item_key => $item_title) {
         'section' => 'respostas_sociais_settings',
     )));
 }
+
+    
+    // Seção Respostas Sociais
+    $wp_customize->add_section('respostas_sociais_section', array(
+        'title' => __('Respostas Sociais', 'centrosocial'),
+        'priority' => 30,
+    ));
+
+    // Configuração do ícone da Creche
+    $wp_customize->add_setting('creche_icon', array(
+        'default' => 'fas fa-child', // Ícone padrão
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+
+    $wp_customize->add_control('creche_icon', array(
+        'label' => __('Ícones', 'centrosocial'),
+        'section' => 'respostas_sociais_settings',
+        'type' => 'text',
+    ));
+
+    // Configuração da cor do botão da Creche
+    $wp_customize->add_setting('creche_button_color', array(
+        'default' => '#ff6600', // Cor padrão
+        'sanitize_callback' => 'sanitize_hex_color',
+    ));
+
+    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'creche_button_color', array(
+        'label' => __('Cor do Botão da Creche', 'centrosocial'),
+        'section' => 'respostas_sociais_settings',
+    )));
 
 }
 
