@@ -132,6 +132,46 @@ foreach ($items as $item_key => $item_title) {
         'section' => 'respostas_sociais_settings',
     )));
 
+$wp_customize->add_section('nossa_instituicao_settings', array(
+    'title' => __('Configurações de Nossa Instituição', 'centrosocial'),
+    'priority' => 30,
+));
+
+    // Configuração da imagem de fundo
+    $wp_customize->add_setting('nossa_instituicao_bg_image', array(
+        'sanitize_callback' => 'esc_url_raw',
+    ));
+
+    $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'nossa_instituicao_bg_image', array(
+        'label' => __('Imagem de fundo para Nossa Instituição', 'centrosocial'),
+        'section' => 'nossa_instituicao_settings',
+        'settings' => 'nossa_instituicao_bg_image',
+    )));
+
+    // Configuração do link do vídeo
+    $wp_customize->add_setting('nossa_instituicao_video_link', array(
+        'sanitize_callback' => 'esc_url_raw',
+    ));
+
+    $wp_customize->add_control('nossa_instituicao_video_link', array(
+        'label' => __('Link do vídeo para Nossa Instituição', 'centrosocial'),
+        'section' => 'nossa_instituicao_settings',
+        'type' => 'url',
+    ));
+
+    // Configuração do botão de vídeo
+    $wp_customize->add_setting('nossa_instituicao_video_button_text', array(
+        'default' => 'Assistir ao Vídeo',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+
+    $wp_customize->add_control('nossa_instituicao_video_button_text', array(
+        'label' => __('Texto do botão de vídeo para Nossa Instituição', 'centrosocial'),
+        'section' => 'nossa_instituicao_settings',
+        'type' => 'text',
+    ));
+
+
 }
 
 add_action('customize_register', 'theme_customizer_settings');

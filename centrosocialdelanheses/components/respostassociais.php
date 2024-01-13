@@ -58,4 +58,20 @@
         </div>
     </div>
 </div>
-<!-- end product section -->
+<div class="abt-section mb-150" style="background-image: url('<?php echo esc_url(get_theme_mod('nossa_instituicao_bg_image', '')); ?>');">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-12">
+                <div class="abt-bg">
+                    <a href="<?php echo esc_url(get_theme_mod('nossa_instituicao_video_link', 'https://www.youtube.com/watch?v=DBLlFWYcIGQ')); ?>" class="video-play-btn popup-youtube"><i class="fas fa-play"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-12">
+                <div class="abt-text">
+                    <h2>Nossa <span class="orange-text">Instituição</span></h2>
+                    <p><?php echo wp_kses_post(get_theme_mod('nossa_instituicao_content', 'Somos uma instituição dinâmica, dedicada a evoluir para atender às necessidades da comunidade. Nossa essência é centrada nas pessoas, com ênfase no cuidado e bem-estar. Buscamos o bem-estar dos clientes, crescer com excelência e inspirar outros na busca pela Qualidade, Inovação e Sustentabilidade. Nossos valores incluem integridade, solidariedade, ética, responsabilidade, respeito, profissionalismo e gratidão. Convidamos você a percorrer esse caminho conosco.')); ?></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
