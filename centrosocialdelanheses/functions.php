@@ -18,6 +18,8 @@ function carregar_recursos_tema() {
     wp_enqueue_script('jquery');
     wp_enqueue_script('bootstrap', get_template_directory_uri() . '/assets/bootstrap/js/bootstrap.min.js', array('jquery'), '1.0', true);
     wp_enqueue_script('owl-carousel', get_template_directory_uri() . '/assets/js/owl.carousel.min.js', array('jquery'), '1.0', true);
+
+    
 }
 
 add_action('wp_enqueue_scripts', 'carregar_recursos_tema');
@@ -170,46 +172,155 @@ $wp_customize->add_section('nossa_instituicao_settings', array(
         'section' => 'nossa_instituicao_settings',
         'type' => 'text',
     ));
+    $wp_customize->add_section('logo_section', array(
+        'title' => 'Logos',
+        'priority' => 30,
+    ));
 
+    for ($i = 1; $i <= 8; $i++) {
+        $wp_customize->add_setting("logo_image_$i", array(
+            'default' => '',
+            'sanitize_callback' => 'absint',
+        ));
 
+        $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, "logo_image_{$i}_control", array(
+            'label' => "Faça o upload da Logo $i",
+            'section' => 'logo_section',
+            'settings' => "logo_image_$i",
+        )));
+    }
+
+        // Seção para configurações do footer
+        $wp_customize->add_section('footer_settings', array(
+            'title' => 'Configurações do Footer',
+            'priority' => 30,
+        ));
+    
+        // Adiciona controle para o texto do parágrafo sobre a instituição
+        $wp_customize->add_setting('footer_about_text', array(
+            'default' => '',
+        ));
+        $wp_customize->add_control('footer_about_text', array(
+            'label' => 'Texto do Parágrafo',
+            'section' => 'footer_settings',
+            'type' => 'textarea',
+        ));
+    
+        // Adiciona controle para a morada
+        $wp_customize->add_setting('footer_address', array(
+            'default' => '',
+        ));
+        $wp_customize->add_control('footer_address', array(
+            'label' => 'Morada',
+            'section' => 'footer_settings',
+            'type' => 'text',
+        ));
+    
+        // Adiciona controle para o email
+        $wp_customize->add_setting('footer_email', array(
+            'default' => '',
+        ));
+        $wp_customize->add_control('footer_email', array(
+            'label' => 'Email',
+            'section' => 'footer_settings',
+            'type' => 'text',
+        ));
+    
+        // Adiciona controle para o telefone
+        $wp_customize->add_setting('footer_phone', array(
+            'default' => '',
+        ));
+        $wp_customize->add_control('footer_phone', array(
+            'label' => 'Telefone',
+            'section' => 'footer_settings',
+            'type' => 'text',
+        ));
+
+    // Seção Social Icons
+    $wp_customize->add_section('social_icons', array(
+        'title' => __('Ícones Sociais', 'theme'),
+        'priority' => 30,
+    ));
+
+    // Facebook URL
+    $wp_customize->add_setting('facebook_url', array(
+        'default' => '',
+        'sanitize_callback' => 'esc_url_raw',
+    ));
+
+    $wp_customize->add_control('facebook_url', array(
+        'label' => __('URL do Facebook', 'theme'),
+        'section' => 'social_icons',
+        'type' => 'text',
+    ));
+
+    // Twitter URL
+    $wp_customize->add_setting('twitter_url', array(
+        'default' => '',
+        'sanitize_callback' => 'esc_url_raw',
+    ));
+
+    $wp_customize->add_control('twitter_url', array(
+        'label' => __('URL do Twitter', 'theme'),
+        'section' => 'social_icons',
+        'type' => 'text',
+    ));
+
+    // Instagram URL
+    $wp_customize->add_setting('instagram_url', array(
+        'default' => '',
+        'sanitize_callback' => 'esc_url_raw',
+    ));
+
+    $wp_customize->add_control('instagram_url', array(
+        'label' => __('URL do Instagram', 'theme'),
+        'section' => 'social_icons',
+        'type' => 'text',
+    ));
 }
+ 
+    
 
 add_action('customize_register', 'theme_customizer_settings');
 
 
 
 // Registrar um tipo de postagem personalizado para Testemunhos
-function registrar_tipo_testemunhos() {
+function registrar_testemunhos() {
     $labels = array(
-        'name'                  => _x('Testemunhos', 'Nome geral do tipo de postagem'),
-        'singular_name'         => _x('Testemunho', 'Nome singular do tipo de postagem'),
-        'add_new'               => _x('Adicionar Novo', 'Adicionar novo testemunho'),
-        'add_new_item'          => __('Adicionar Novo Testemunho'),
-        'edit_item'             => __('Editar Testemunho'),
-        'new_item'              => __('Novo Testemunho'),
-        'view_item'             => __('Ver Testemunho'),
-        'search_items'          => __('Buscar Testemunhos'),
-        'not_found'             => __('Nenhum Testemunho encontrado'),
-        'not_found_in_trash'    => __('Nenhum Testemunho encontrado na lixeira'),
-        'parent_item_colon'     => '',
-        'menu_name'             => 'Testemunhos'
+        'name'               => _x( 'Testemunhos', 'post type general name', 'centrosocial' ),
+        'singular_name'      => _x( 'Testemunho', 'post type singular name', 'centrosocial' ),
+        'menu_name'          => _x( 'Testemunhos', 'admin menu', 'centrosocial' ),
+        'name_admin_bar'     => _x( 'Testemunho', 'add new on admin bar', 'centrosocial' ),
+        'add_new'            => _x( 'Adicionar Novo', 'testemunho', 'centrosocial' ),
+        'add_new_item'       => __( 'Adicionar Novo Testemunho', 'centrosocial' ),
+        'new_item'           => __( 'Novo Testemunho', 'centrosocial' ),
+        'edit_item'          => __( 'Editar Testemunho', 'centrosocial' ),
+        'view_item'          => __( 'Ver Testemunho', 'centrosocial' ),
+        'all_items'          => __( 'Todos os Testemunhos', 'centrosocial' ),
+        'search_items'       => __( 'Procurar Testemunhos', 'centrosocial' ),
+        'parent_item_colon'  => __( 'Testemunhos Pai:', 'centrosocial' ),
+        'not_found'          => __( 'Nenhum Testemunho encontrado.', 'centrosocial' ),
+        'not_found_in_trash' => __( 'Nenhum Testemunho encontrado na lixeira.', 'centrosocial' )
     );
 
     $args = array(
-        'labels'                => $labels,
-        'public'                => true,
-        'publicly_queryable'    => true,
-        'show_ui'               => true,
-        'show_in_menu'          => true,
-        'query_var'             => true,
-        'rewrite'               => array('slug' => 'testemunhos'),
-        'capability_type'       => 'post',
-        'has_archive'           => true,
-        'hierarchical'          => false,
-        'menu_position'         => null,
-        'supports'              => array('title', 'editor', 'thumbnail'),
+        'labels'             => $labels,
+        'public'             => true,
+        'publicly_queryable' => true,
+        'show_ui'            => true,
+        'show_in_menu'       => true,
+        'query_var'          => true,
+        'rewrite'            => array( 'slug' => 'testemunhos' ),
+        'capability_type'    => 'post',
+        'has_archive'        => true,
+        'hierarchical'       => false,
+        'menu_position'      => null,
+        'supports'           => array( 'title', 'editor', 'thumbnail' ),
     );
 
-    register_post_type('testemunhos', $args);
+    register_post_type( 'testemunhos', $args );
 }
-add_action('init', 'registrar_tipo_testemunhos');
+
+add_action( 'init', 'registrar_testemunhos' );
+

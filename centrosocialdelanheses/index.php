@@ -44,3 +44,6 @@
 <body>
     <?php get_template_part('components/header'); ?>
     <?php get_template_part('components/respostassociais'); ?>
+    <?php get_template_part('components/testemunhos'); ?>
+    <?php get_template_part('components/logotipos'); ?>
+    <?php get_template_part('components/footer'); ?>
