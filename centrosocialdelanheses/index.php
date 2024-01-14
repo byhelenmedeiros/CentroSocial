@@ -27,6 +27,8 @@
 
     </head>
 <body>
+
+    <?php get_template_part('components/navbar'); ?>
     <?php get_template_part('components/header'); ?>
     <?php get_template_part('components/respostassociais'); ?>
     <?php get_template_part('components/testemunhos'); ?>
