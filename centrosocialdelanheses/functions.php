@@ -8,6 +8,26 @@ register_nav_menus(array(
     'primary' => esc_html__('Primary Menu', 'centrosocial'),
 ));
 
+// Adiciona suporte a estilos do editor
+function centrosocial_suporte_estilos_editor() {
+    add_theme_support('editor-styles');
+    add_editor_style('style-editor.css'); 
+}
+add_action('after_setup_theme', 'centrosocial_suporte_estilos_editor');
+
+// Adiciona suporte a blocos
+function centrosocial_suporte_blocos() {
+    add_theme_support('wp-block-styles');
+    add_theme_support('align-wide');
+}
+add_action('after_setup_theme', 'centrosocial_suporte_blocos');
+
+// Adiciona um script para o editor de blocos
+function centrosocial_editor_script() {
+    wp_enqueue_script('centrosocial-editor-script', get_template_directory_uri() . '/assets/js/editor-script.js', array('wp-blocks', 'wp-editor', 'wp-components'), null, true);
+}
+add_action('enqueue_block_editor_assets', 'centrosocial_editor_script');
+
 // Carrega os recursos do tema (estilos e scripts)
 function carregar_recursos_tema() {
     // Estilos
@@ -18,9 +38,8 @@ function carregar_recursos_tema() {
     wp_enqueue_script('jquery');
     wp_enqueue_script('bootstrap', get_template_directory_uri() . '/assets/bootstrap/js/bootstrap.min.js', array('jquery'), '1.0', true);
     wp_enqueue_script('owl-carousel', get_template_directory_uri() . '/assets/js/owl.carousel.min.js', array('jquery'), '1.0', true);
-
-    
 }
+
 
 add_action('wp_enqueue_scripts', 'carregar_recursos_tema');
 
@@ -323,4 +342,5 @@ function registrar_testemunhos() {
 }
 
 add_action( 'init', 'registrar_testemunhos' );
+
 
