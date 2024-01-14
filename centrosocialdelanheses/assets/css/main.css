@@ -605,10 +605,6 @@ nav.main-menu ul li:last-child a {
   display: inline-block;
 }
 
-nav.main-menu > ul li:last-child {
-  float: right;
-}
-
 .site-logo {
   float: left;
   max-width: 150px;
@@ -627,22 +623,15 @@ ul.sub-menu li:last-child {
 
 .mean-bar a.meanmenu-reveal {
   background-color: #F28123;
+  border-radius: 50px;
 }
 
 .main-menu-wrap {
   position: relative;
 }
 
-.mean-container a.meanmenu-reveal {
-  color: #051922;
-}
-
 .mean-container a.meanmenu-reveal span {
-  background-color: #051922;
-}
-
-.mean-container .mean-nav ul li a {
-  padding: 0.5em 5%;
+  background-color: #ffffff;
 }
 
 .mean-container .mean-nav ul li li a {
@@ -654,10 +643,6 @@ ul.sub-menu li:last-child {
   height: 10px;
   line-height: 10px;
   width: 15px;
-}
-
-.mean-container a.meanmenu-reveal {
-  padding: 8px 8px 6px;
 }
 
 nav.mean-nav > ul > li:first-child > a {
@@ -672,6 +657,7 @@ nav.mean-nav > ul > li:first-child > a {
 
 .site-logo {
   padding: 6px 0;
+  order: 2;
 }
 
 .top-header-area.sepherate-header ul li > a, .top-header-area.sepherate-header .header-icons a {

@@ -113,9 +113,6 @@
 	    position: absolute;
 	    z-index: 999;
 	}
-	.mean-container .mean-bar {
-		z-index: 2;
-	}
 	.responsive-menu-wrap {
 	    display: block;
 	}
@@ -429,10 +426,6 @@
 	.site-logo {
     position: absolute;
 	    z-index: 99;
-	}
-
-	.mean-container .mean-bar {
-	    z-index: 2;
 	}
 	.section-title {
 	    margin-bottom: 50px;
