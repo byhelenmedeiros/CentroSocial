@@ -1,4 +1,3 @@
-<html>
 <div class="top-header-area" id="sticker">
     <div class="container">
         <div class="row">
@@ -10,6 +9,7 @@
                             <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/img/Logo CPSL.png'); ?>" alt="<?php echo esc_attr(get_bloginfo('name')); ?>">
                         </a>
                     </div>
+                    <!-- menu start -->
                     <nav class="main-menu">
                         <?php
                             wp_nav_menu(array(
@@ -19,6 +19,7 @@
                             ));
                         ?>
                     </nav>
+                    <!-- menu end -->
                     <a class="mobile-show search-bar-icon" href="#"><i class="fas fa-search"></i></a>
                     <div class="mobile-menu"></div>
                 </div>
