@@ -15,13 +15,6 @@ function centrosocial_suporte_estilos_editor() {
 }
 add_action('after_setup_theme', 'centrosocial_suporte_estilos_editor');
 
-function load_jquery() {
-    if (!is_admin()) {
-        wp_deregister_script('jquery');
-        wp_register_script('jquery', 'https://code.jquery.com/jquery-3.6.0.min.js', array(), null, false);
-        wp_enqueue_script('jquery');
-    }
-}
 add_action('wp_enqueue_scripts', 'load_jquery');
 
 // Carrega os recursos do tema (estilos e scripts)
@@ -339,8 +332,10 @@ function registrar_testemunhos() {
 
 add_action( 'init', 'registrar_testemunhos' );
 
+
 // Adiciona um botão de upload de PDF no menu de administração
 add_action('admin_menu', 'add_pdf_upload_admin_menu');
+
 function add_pdf_upload_admin_menu() {
     add_menu_page(
         'Adicionar Relatório',
@@ -355,8 +350,7 @@ function add_pdf_upload_admin_menu() {
 
 function pdf_upload_page() {
     ?>
-
-<div class="wrap">
+    <div class="wrap">
         <h1>Adicionar Relatórios</h1>
         <h2>Esta página permite adicionar e gerenciar relatórios.</h2>
         <hr>
@@ -390,8 +384,13 @@ function pdf_upload_page() {
         <hr>
 
         <h2>Relatórios Adicionados</h2>
+
+        
         <?php display_added_reports(); ?>
+
+        
     </div>
+
     <style>
         .form-field {
             margin-bottom: 20px;
@@ -401,8 +400,14 @@ function pdf_upload_page() {
             margin-top: 20px;
         }
     </style>
-<script>
-            document.addEventListener('DOMContentLoaded', function () {
+
+    <?php
+    // Adicione os scripts no final do documento
+    wp_enqueue_script('jquery');
+    wp_enqueue_media();
+    ?>
+    <script>
+        jQuery(document).ready(function($) {
             var pdfUploadForm = document.getElementById('pdf_upload_form');
             var submitButton = document.getElementById('submit_button');
             var chooseImageButton = document.getElementById('choose_image_button');
@@ -414,7 +419,7 @@ function pdf_upload_page() {
                 var formData = new FormData(pdfUploadForm);
 
                 // Realiza o envio do formulário usando AJAX
-                jQuery.ajax({
+                $.ajax({
                     type: 'POST',
                     url: '<?php echo esc_url(admin_url('admin-post.php')); ?>',
                     data: formData,
@@ -433,24 +438,30 @@ function pdf_upload_page() {
             chooseImageButton.addEventListener('click', function (event) {
                 event.preventDefault();
 
-                var imageUploader = wp.media({
-                    title: 'Escolher Imagem',
-                    multiple: false,
-                    library: { type: 'image' },
-                });
+                // Certifique-se de que o jQuery está carregado antes de usar wp.media
+                if (typeof jQuery !== 'undefined' && typeof jQuery.fn.media !== 'undefined') {
+                    var imageUploader = wp.media({
+                        title: 'Escolher Imagem',
+                        multiple: false,
+                        library: { type: 'image' },
+                    });
 
-                imageUploader.on('select', function () {
-                    var attachment = imageUploader.state().get('selection').first().toJSON();
-                    pdfImageField.value = attachment.url;
-                });
+                    imageUploader.on('select', function () {
+                        var attachment = imageUploader.state().get('selection').first().toJSON();
+                        pdfImageField.value = attachment.url;
+                    });
 
-                imageUploader.open();
+                    imageUploader.open();
+                } else {
+                    console.error('jQuery or wp.media is not defined.');
+                }
             });
         });
-    </script></script>
+    </script>
     <?php
 }
-    // Exibe os relatórios adicionados em uma tabela
+
+// Exibe os relatórios adicionados em uma tabela
 function display_added_reports() {
     $reports = get_posts(array(
         'post_type' => 'page',

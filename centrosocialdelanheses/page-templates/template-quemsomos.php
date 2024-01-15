@@ -1,6 +1,6 @@
 <?php
 /*
-Template Name: Transparencia
+Template Name: Quem Somos
 */
 ?>
 
@@ -18,9 +18,8 @@ Template Name: Transparencia
     <?php get_template_part('components/header'); ?>
     
     <!-- Verificar qual página está sendo exibida -->
-    <?php if (is_page('transparencia')) : ?>
-    <?php get_template_part('components/transparencia-content'); ?>
-
+    <?php if (is_page('quemsomos')) : ?>
+    <?php get_template_part('components/quemsomos-content'); ?>
 
 <?php else : ?>
     <!-- Conteúdo padrão -->
@@ -28,8 +27,6 @@ Template Name: Transparencia
         <?php the_content(); ?>
     <?php endwhile; endif; ?>
 <?php endif; ?>
-
-    <!-- Fim do conteúdo específico -->
 
     <?php get_template_part('components/footer'); ?>
 

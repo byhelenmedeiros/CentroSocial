@@ -1,19 +1,3 @@
-
-	<!-- breadcrumb-section -->
-	<div class="breadcrumb-section breadcrumb-bg">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-8 offset-lg-2 text-center">
-					<div class="breadcrumb-text">
-						<h1>Documentação</h1>
-						<p>Toda nossa informação</p>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- end breadcrumb section -->
-
 <!-- latest news -->
 <div class="latest-news mt-150 mb-150">
     <div class="container">
@@ -60,6 +44,8 @@
             <?php
                 endwhile;
                 wp_reset_postdata();
+            else:
+                echo '<p>Nenhum relatório adicionado.</p>';
             endif;
             ?>
         </div>
