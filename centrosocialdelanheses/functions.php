@@ -8,14 +8,6 @@ register_nav_menus(array(
     'primary' => esc_html__('Primary Menu', 'centrosocial'),
 ));
 
-// Adiciona suporte a estilos do editor
-function centrosocial_suporte_estilos_editor() {
-    add_theme_support('editor-styles');
-    add_editor_style('style-editor.css'); 
-}
-add_action('after_setup_theme', 'centrosocial_suporte_estilos_editor');
-
-add_action('wp_enqueue_scripts', 'load_jquery');
 
 // Carrega os recursos do tema (estilos e scripts)
 function carregar_recursos_tema() {
@@ -331,6 +323,16 @@ function registrar_testemunhos() {
 }
 
 add_action( 'init', 'registrar_testemunhos' );
+
+
+// Função para carregar jQuery no frontend
+function load_jquery() {
+    if (!is_admin()) {
+        wp_enqueue_script('jquery');
+    }
+}
+add_action('wp_enqueue_scripts', 'load_jquery');
+
 
 
 // Adiciona um botão de upload de PDF no menu de administração

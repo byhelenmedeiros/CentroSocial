@@ -18,7 +18,7 @@ Template Name: Quem Somos
     <?php get_template_part('components/header'); ?>
     
     <!-- Verificar qual página está sendo exibida -->
-    <?php if (is_page('quemsomos')) : ?>
+    <?php if (is_page('quem-somos')) : ?>
     <?php get_template_part('components/quemsomos-content'); ?>
 
 <?php else : ?>
