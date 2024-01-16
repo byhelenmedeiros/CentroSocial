@@ -66,25 +66,41 @@
 
 				  
 				  <div id="option1Fields" style="display:none;">
-					<p>
-						<p>
-							.	
+				  <div id="form_status"></div>
+				  <div class="contact-form">
+							<div class="form-row">
+								<div class="form-group col-md-6">
+								<label for="name">Nome completo:</label>
+								<input type="text" placeholder="Insira seu nome completo" name="name" id="name">
+								</div>
+								<div class="form-group col-md-6">
+								<label for="phone">Telemóvel (+351):</label>
+								<input type="tel" placeholder="Insira seu número de telemóvel" name="phone" id="phone">
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="form-group col-md-6">
+								<label for="email">Email:</label>
+								<input type="email" placeholder="Insira seu endereço de email" name="email" id="email">
+								</div>
+								<div class="form-group col-md-6">
+								<label for="relationship">Relação ou Parentesco:</label>
+								<input type="text" placeholder="Insira sua relação ou parentesco" name="relationship" id="relationship">
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="form-group col-md-6">
+								<label for="motherPostalCode">Código Postal:</label>
+								<input type="text" placeholder="Insira seu código postal" name="motherPostalCode" id="motherPostalCode">
+								</div>
+								<div class="form-group col-md-6">
+								<label for="motherCity">Localidade:</label>
+								<input type="text" placeholder="Insira sua localidade" name="motherCity" id="motherCity">
+								</div>
+							</div>
+							</div>
 
-							<input type="text" placeholder="Nome completo" name="name" id="name">
-							<input type="tel" placeholder="Telemóvel" name="phone" id="phone">
-							<input type="email" placeholder="Email" name="email" id="email">
-							</p>
-							<p>
-							<input type="text" placeholder="Relação ou Parentesco" name="relationship" id="relationship">
-							<input type="text" placeholder="Código Postal" name="motherPostalCode" id="motherPostalCode">
-							<input type="text" placeholder="Localidade" name="motherCity" id="motherCity">
-							</p>
-							<H6>Tipos de Vagas</H6>
-							<p>
-							Protocolada<input type="radio" name="siblingsAttending" value="Sim">
-							Social<input type="radio" name="siblingsAttending" value="Sim">
-							Privada<input type="radio" name="siblingsAttending" value="Sim">
-							</p>
+
 							<div class="container">
 								<form>
 									<table class="table">

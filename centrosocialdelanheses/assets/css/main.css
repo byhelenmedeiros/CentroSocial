@@ -2248,7 +2248,7 @@ ul.social-link-team li a {
   border-radius: 3px;
 }
 
-.contact-form form select {
+.contact-form form select, #specificSupport {
   width: 49%;
   padding: 15px;
   border: 1px solid #ddd;
