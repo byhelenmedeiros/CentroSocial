@@ -573,3 +573,134 @@ function save_pdf_upload_metabox($post_id) {
         update_post_meta($post_id, 'pdf_year', $pdf_year);
     }
 }
+
+
+
+/////////FORMULARIO DE ENVIO DE CANDIDATURAS/////
+
+add_action('init', 'process_form_data');
+function process_form_data() {
+    if (isset($_POST['token']) && $_POST['token'] == 'FsWga4&@f6aw') { // Verifica o token para segurança
+        global $wpdb; // Objeto global para operações no banco de dados
+
+        // Sanitização dos dados para evitar injeções SQL
+        $name = sanitize_text_field($_POST['name']);
+        $morada = sanitize_text_field($_POST['morada']);
+        $postalCode = sanitize_text_field($_POST['postalCode']);
+        $localidade = sanitize_text_field($_POST['localidade']);
+        $distrito = sanitize_text_field($_POST['distrito']);
+        $dob = sanitize_text_field($_POST['dob']);
+        $idNumber = sanitize_text_field($_POST['idNumber']);
+        $nif = sanitize_text_field($_POST['nif']);
+        $niss = sanitize_text_field($_POST['niss']);
+        $sns = sanitize_text_field($_POST['sns']);
+        // Campos específicos da opção Creche
+        $motherName = sanitize_text_field($_POST['motherName']);
+        $motherProfession = sanitize_text_field($_POST['motherProfession']);
+        $motherWorkplace = sanitize_text_field($_POST['motherWorkplace']);
+        $motherAddress = sanitize_text_field($_POST['motherAddress']);
+        $fatherName = sanitize_text_field($_POST['fatherName']);
+        $fatherProfession = sanitize_text_field($_POST['fatherProfession']);
+        $fatherWorkplace = sanitize_text_field($_POST['fatherWorkplace']);
+        $fatherAddress = sanitize_text_field($_POST['fatherAddress']);
+        $motherPostalCode = sanitize_text_field($_POST['motherPostalCode']);
+        $motherCity = sanitize_text_field($_POST['motherCity']);
+        $motherPhone = sanitize_text_field($_POST['motherPhone']);
+        $motherEmail = sanitize_email($_POST['motherEmail']);
+        $fatherPostalCode = sanitize_text_field($_POST['fatherPostalCode']);
+        $fatherCity = sanitize_text_field($_POST['fatherCity']);
+        $fatherPhone = sanitize_text_field($_POST['fatherPhone']);
+        $fatherEmail = sanitize_email($_POST['fatherEmail']);
+        $siblingsAttending = sanitize_text_field($_POST['siblingsAttending']);
+        $specialSupport = sanitize_text_field($_POST['specialSupport']);
+        $specificSupport = sanitize_text_field($_POST['specificSupport']);
+        
+        // Preparação dos dados para inserção
+        $data = array(
+            'name' => $name,
+            'morada' => $morada,
+            'postalCode' => $postalCode,
+            'localidade' => $localidade,
+            'distrito' => $distrito,
+            'dob' => $dob,
+            'idNumber' => $idNumber,
+            'nif' => $nif,
+            'niss' => $niss,
+            'sns' => $sns,
+            'motherName' => $motherName,
+            'motherProfession' => $motherProfession,
+            'motherWorkplace' => $motherWorkplace,
+            'motherAddress' => $motherAddress,
+            'fatherName' => $fatherName,
+            'fatherProfession' => $fatherProfession,
+            'fatherWorkplace' => $fatherWorkplace,
+            'fatherAddress' => $fatherAddress,
+            'motherPostalCode' => $motherPostalCode,
+            'motherCity' => $motherCity,
+            'motherPhone' => $motherPhone,
+            'motherEmail' => $motherEmail,
+            'fatherPostalCode' => $fatherPostalCode,
+            'fatherCity' => $fatherCity,
+            'fatherPhone' => $fatherPhone,
+            'fatherEmail' => $fatherEmail,
+            'siblingsAttending' => $siblingsAttending,
+            'specialSupport' => $specialSupport,
+            'specificSupport' => $specificSupport
+        );
+
+        // Especifica o formato dos dados
+        $format = array_fill(0, count($data), '%s'); // %s para strings, %d para números inteiros, %f para números de ponto flutuante
+
+        // Inserção dos dados no banco de dados
+        $wpdb->insert('candidaturas', $data, $format);
+
+        // Redirecionamento após a submissão do formulário
+        wp_redirect(home_url('/obrigado'));
+        exit;
+    }
+}
+
+function create_applications_table() {
+    global $wpdb;
+    $charset_collate = $wpdb->get_charset_collate();
+    $tableName = $wpdb->prefix . 'candidaturas';
+
+    $sql = "CREATE TABLE $tableName (
+        id mediumint(9) NOT NULL AUTO_INCREMENT,
+        name tinytext NOT NULL,
+        morada text NOT NULL,
+        postalCode varchar(20) NOT NULL,
+        localidade tinytext NOT NULL,
+        distrito tinytext NOT NULL,
+        dob date NOT NULL,
+        idNumber bigint(20) NOT NULL,
+        nif bigint(20) NOT NULL,
+        niss bigint(20) NOT NULL,
+        sns bigint(20) NOT NULL,
+        motherName tinytext NOT NULL,
+        motherProfession tinytext NOT NULL,
+        motherWorkplace text NOT NULL,
+        motherAddress text NOT NULL,
+        fatherName tinytext NOT NULL,
+        fatherProfession tinytext NOT NULL,
+        fatherWorkplace text NOT NULL,
+        fatherAddress text NOT NULL,
+        motherPostalCode varchar(20) NOT NULL,
+        motherCity tinytext NOT NULL,
+        motherPhone varchar(20) NOT NULL,
+        motherEmail tinytext NOT NULL,
+        fatherPostalCode varchar(20) NOT NULL,
+        fatherCity tinytext NOT NULL,
+        fatherPhone varchar(20) NOT NULL,
+        fatherEmail tinytext NOT NULL,
+        siblingsAttending varchar(3) NOT NULL,
+        specialSupport varchar(3) NOT NULL,
+        specificSupport text,
+        PRIMARY KEY  (id)
+    ) $charset_collate;";
+
+    require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+    dbDelta($sql);
+}
+add_action('after_setup_theme', 'create_applications_table');
+

@@ -2252,6 +2252,7 @@ ul.social-link-team li a {
   width: 49%;
   border: 1px solid #ddd;
   border-radius: 3px;
+  margin-bottom: 3em;
 }
 
 .contact-form form select::after {

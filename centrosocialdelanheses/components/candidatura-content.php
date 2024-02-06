@@ -6,12 +6,7 @@
     <title>Candidaturas</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/libphonenumber-js/1.7.44/libphonenumber-js.min.js"></script>
-    <!-- Inclua outras tags head necessárias aqui -->
-    <style>
-        .form-group {
-            margin-bottom: 20px;
-        }
-    </style>
+   
 </head>
 <body>
     <!-- Seção Breadcrumb -->
@@ -40,7 +35,7 @@
                     <h3>DADOS DE IDENTIFICAÇÃO DO(A) CANDIDATO(A):</h3>
                     <div id="form_status"></div>
                     <div class="contact-form">
-                        <form type="POST" id="personal-info-form" onSubmit="return valid_datas(this);">
+                    <form method="POST" id="personal-info-form" onSubmit="return valid_datas(this);">
                             <!-- Campos do formulário -->
                             <div class="row">
                                 <div class="col-md-6">
