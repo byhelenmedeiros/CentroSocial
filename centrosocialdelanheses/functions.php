@@ -615,6 +615,7 @@ function process_form_data() {
         $specialSupport = sanitize_text_field($_POST['specialSupport']);
         $specificSupport = sanitize_text_field($_POST['specificSupport']);
         
+        
         // Preparação dos dados para inserção
         $data = array(
             'name' => $name,
@@ -652,7 +653,7 @@ function process_form_data() {
         $format = array_fill(0, count($data), '%s'); // %s para strings, %d para números inteiros, %f para números de ponto flutuante
 
         // Inserção dos dados no banco de dados
-        $wpdb->insert('candidaturas', $data, $format);
+        $wpdb->insert('wp_candidaturas', $data, $format);
 
         // Redirecionamento após a submissão do formulário
         wp_redirect(home_url('/obrigado'));
@@ -704,3 +705,44 @@ function create_applications_table() {
 }
 add_action('after_setup_theme', 'create_applications_table');
 
+
+function add_candidaturas_menu_item() {
+    add_menu_page(
+        'Candidaturas', // Título da página
+        'Candidaturas', // Título do menu
+        'manage_options', // Capacidade necessária para ver este menu
+        'candidaturas', // Slug do menu
+        'candidaturas_page_content', // Função que irá renderizar a página do menu
+        'dashicons-list-view', // Ícone do menu
+        6 // Posição do menu
+    );
+}
+
+add_action('admin_menu', 'add_candidaturas_menu_item');
+
+// Função para renderizar o conteúdo da página do menu
+function candidaturas_page_content() {
+    global $wpdb;        // Determinar a página atual
+    $paged = isset($_GET['paged']) ? max(1, intval($_GET['paged'])) : 1;
+    $per_page = 10; // Número de itens por página
+    $offset = ($paged - 1) * $per_page;
+
+    // Atualizar a consulta para aplicar paginação
+    $total_query = "SELECT COUNT(1) FROM {$wpdb->prefix}candidaturas";
+    $total = $wpdb->get_var($total_query);
+    $total_pages = ceil($total / $per_page);
+
+    $results = $wpdb->get_results($wpdb->prepare("SELECT * FROM {$wpdb->prefix}candidaturas ORDER BY id DESC LIMIT %d OFFSET %d", $per_page, $offset), OBJECT);
+
+
+    echo '<div class="wrap"><h1>Candidaturas</h1>';
+    echo '<p> Aqui estão todos as candidaturas, para acessar todos os dados clique no botão obter dados</p>';
+    echo '<table class="wp-list-table widefat fixed striped">';
+    echo '<thead><tr><th>Nome</th><th>Morada</th><th>Código Postal</th><th>Localidade</th><th>Distrito</th><th>Data de Nascimento</th><th>Nº CC / B.I.</th><th>NIF</th><th>NISS</th><th>SNS</th><th>Ações</th></tr></thead>';
+    echo '<tbody>';
+    foreach ($results as $row) {
+        $style = $row->downloaded ? '' : 'font-weight:bold;';
+        echo "<tr style='{$style}'><td>{$row->name}</td><td>{$row->morada}</td><td>{$row->postalCode}</td><td>{$row->localidade}</td><td>{$row->distrito}</td><td>{$row->dob}</td><td>{$row->idNumber}</td><td>{$row->nif}</td><td>{$row->niss}</td><td>{$row->sns}</td><td><a href='download.php?id={$row->id}' class='button action'>Baixar</a></td></tr>";
+    }
+    echo '</tbody></table></div>';
+}
