@@ -347,6 +347,7 @@ add_action('wp_enqueue_scripts', 'load_jquery');
 
 //////// RELATORIOS /////////////
 
+session_start();
 
 function adicionar_menu_relatorios_pdf() {
     add_menu_page(
@@ -359,31 +360,46 @@ function adicionar_menu_relatorios_pdf() {
         6 // Posição no menu
     );
 }
-
 function pagina_relatorios_pdf() {
+    // Inicializar a lista de relatórios carregados na sessão, se ainda não existir
+    if (!isset($_SESSION['relatorios_pdf_carregados'])) {
+        $_SESSION['relatorios_pdf_carregados'] = array();
+    }
 
     if (isset($_GET['delete'])) {
         $delete_index = intval($_GET['delete']);
-        $relatorios = get_option('relatorios_pdf_carregados');
-        if (isset($relatorios[$delete_index])) {
-            unset($relatorios[$delete_index]); // Remove o item da lista
-            $relatorios = array_values($relatorios); // Reindexa o array
-            update_option('relatorios_pdf_carregados', $relatorios);
-            echo '<div class="notice notice-success is-dismissible"><p>Arquivo excluído com sucesso.</p></div>';
+        if (isset($_SESSION['relatorios_pdf_carregados'][$delete_index])) {
+            unset($_SESSION['relatorios_pdf_carregados'][$delete_index]); // Remove o item da lista
+            // Redirecionar para a página correta após a exclusão
+            wp_redirect(admin_url('admin.php?page=gerenciar-relatorios-pdf&deleted=true'));
+            exit(); // Parar a execução do script após o redirecionamento
         }
     }
 
     echo '<div class="wrap">';
     echo '<h1>Upload de Relatórios PDF</h1>';
-    
+
     // Formulário de upload
     echo '<form action="" method="post" enctype="multipart/form-data" class="mb-3">';
     echo '<div class="form-group">';
-    echo '<input type="file" class="form-control-file" name="relatorio_pdf" required>';
+    echo '<label for="data_arquivo">Data do Arquivo:</label>';
+    echo '<input type="date" class="form-control" id="data_arquivo" name="data_arquivo" required>';
+    echo '</div>';
+    echo '<div class="form-group">';
+    echo '<label for="nome_arquivo">Nome do Arquivo:</label>';
+    echo '<input type="text" class="form-control" id="nome_arquivo" name="nome_arquivo" required>';
+    echo '</div>';
+    echo '<div class="form-group">';
+    echo '<label for="relatorio_pdf">Relatório PDF:</label>';
+    echo '<input type="file" class="form-control-file" id="relatorio_pdf" name="relatorio_pdf" required>';
+    echo '</div>';
+    echo '<div class="form-group">';
+    echo '<label for="imagem">Imagem:</label>';
+    echo '<input type="file" class="form-control-file" id="imagem" name="imagem" required>';
     echo '</div>';
     echo '<button type="submit" name="submit_pdf" class="btn btn-primary">Carregar Relatório</button>';
     echo '</form>';
-    
+
     // Verificar se o formulário foi submetido
     if (isset($_POST['submit_pdf'])) {
         if (!function_exists('wp_handle_upload')) {
@@ -392,47 +408,62 @@ function pagina_relatorios_pdf() {
         $uploadedfile = $_FILES['relatorio_pdf'];
         $upload_overrides = array('test_form' => false);
         $movefile = wp_handle_upload($uploadedfile, $upload_overrides);
-    
-        if ($movefile && empty($movefile['error'])) {
+
+        // Processar o upload da imagem
+        $uploaded_image = $_FILES['imagem'];
+        $image_upload_overrides = array('test_form' => false);
+        $movefile_image = wp_handle_upload($uploaded_image, $image_upload_overrides);
+
+        if ($movefile && empty($movefile['error']) && $movefile_image && empty($movefile_image['error'])) {
             echo "<p>Arquivo carregado com sucesso!</p>";
-    
-            // Salvar a URL do arquivo em uma opção do WordPress
-            $relatorios = get_option('relatorios_pdf_carregados');
-            if (empty($relatorios)) {
-                $relatorios = array();
-            }
-            $relatorios[] = $movefile['url'];
-            update_option('relatorios_pdf_carregados', $relatorios);
+
+            // Adicionar o novo relatório à variável de sessão
+            $relatorio_data = array(
+                'pdf_url' => $movefile['url'],
+                'pdf_title' => sanitize_text_field($_POST['nome_arquivo']),
+                'pdf_date' => sanitize_text_field($_POST['data_arquivo']),
+                'image_url' => $movefile_image['url'] // URL da imagem associada
+            );
+
+            $_SESSION['relatorios_pdf_carregados'][] = $relatorio_data; // Adiciona o novo relatório ao final da lista existente
         } else {
             echo "<p>Erro ao carregar arquivo: " . $movefile['error'] . "</p>";
+            echo "<p>Erro ao carregar imagem: " . $movefile_image['error'] . "</p>";
         }
     }
-    
+
+    // Verificar se um relatório foi excluído
+    if (isset($_GET['deleted']) && $_GET['deleted'] === 'true') {
+        echo '<div class="notice notice-success is-dismissible"><p>Relatório removido.</p></div>';
+    }
+
     // Listagem de arquivos PDF carregados
-    $relatorios = get_option('relatorios_pdf_carregados');
-    if (!empty($relatorios)) {
+    if (!empty($_SESSION['relatorios_pdf_carregados'])) {
         echo '<h2>Relatórios Carregados</h2>';
         echo '<table class="table">';
-        echo '<thead class="thead-dark"><tr><th>#</th><th>Nome do Arquivo</th><th>Ações</th></tr></thead>';
+        echo '<thead class="thead-dark"><tr><th>#</th><th>Nome do Arquivo</th><th>Imagem</th><th>Ações</th></tr></thead>';
         echo '<tbody>';
-        foreach ($relatorios as $index => $url) {
-            $filename = basename($url);
+        foreach ($_SESSION['relatorios_pdf_carregados'] as $index => $relatorio) {
+            $filename = basename($relatorio['pdf_url']);
             echo '<tr>';
             echo '<td>' . ($index + 1) . '</td>';
-            echo '<td>' . esc_html($filename) . '</td>';
-            echo '<td><a href="' . esc_url($url) . '" target="_blank" class="btn btn-success btn-sm">Visualizar</a> ';
+            echo '<td>' . esc_html($relatorio['pdf_title']) . '</td>';
+            echo '<td><img src="' . esc_url($relatorio['image_url']) . '" alt="Imagem do Relatório" style="max-width: 100px; max-height: 100px;"></td>';
+            echo '<td><a href="' . esc_url($relatorio['pdf_url']) . '" target="_blank" class="btn btn-success btn-sm">Visualizar</a> ';
             echo '<a href="?page=gerenciar-relatorios-pdf&delete=' . $index . '" class="btn btn-danger btn-sm">Excluir</a></td>';
             echo '</tr>';
         }
-        
+
         echo '</tbody>';
         echo '</table>';
     } else {
         echo '<p>Nenhum relatório carregado ainda.</p>';
     }
-    
+
     echo '</div>'; // Fecha .wrap
 }
+
+
 
 add_action('admin_menu', 'adicionar_menu_relatorios_pdf');
 
