@@ -14,12 +14,22 @@ function carregar_recursos_tema() {
     // Estilos
     wp_enqueue_style('bootstrap', get_template_directory_uri() . '/assets/bootstrap/css/bootstrap.min.css', array(), '1.0', 'all');
     wp_enqueue_style('owl-carousel', get_template_directory_uri() . '/assets/css/owl.carousel.css', array(), '1.0', 'all');
+    
 
     // Scripts
     wp_enqueue_script('jquery');
     wp_enqueue_script('bootstrap', get_template_directory_uri() . '/assets/bootstrap/js/bootstrap.min.js', array('jquery'), '1.0', true);
     wp_enqueue_script('owl-carousel', get_template_directory_uri() . '/assets/js/owl.carousel.min.js', array('jquery'), '1.0', true);
 }
+
+function carregar_bootstrap_admin() {
+    global $pagenow;
+    if (is_admin() && isset($_GET['page']) && $_GET['page'] == 'gerenciar-relatorios-pdf') {
+        wp_enqueue_style('bootstrap-admin-css', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css');
+    }
+}
+add_action('admin_enqueue_scripts', 'carregar_bootstrap_admin');
+
 
 
 add_action('wp_enqueue_scripts', 'carregar_recursos_tema');
@@ -335,245 +345,96 @@ add_action('wp_enqueue_scripts', 'load_jquery');
 
 
 
-// Adiciona um botão de upload de PDF no menu de administração
-add_action('admin_menu', 'add_pdf_upload_admin_menu');
+//////// RELATORIOS /////////////
 
-function add_pdf_upload_admin_menu() {
+
+function adicionar_menu_relatorios_pdf() {
     add_menu_page(
-        'Adicionar Relatório',
-        'Adicionar Relatório',
-        'upload_files',
-        'pdf_upload',
-        'pdf_upload_page',
-        'dashicons-media-default',
-        6
+        'Gerenciar Relatórios PDF', // Título da página
+        'Relatórios PDF', // Título do menu
+        'manage_options', 
+        'gerenciar-relatorios-pdf', // Slug do menu
+        'pagina_relatorios_pdf', 
+        'dashicons-media-text', // Ícone do menu
+        6 // Posição no menu
     );
 }
 
-function pdf_upload_page() {
-    ?>
-    <div class="wrap">
-        <h1>Adicionar Relatórios</h1>
-        <h2>Esta página permite adicionar e gerenciar relatórios.</h2>
-        <hr>
-        
-        <form id="pdf_upload_form" method="post" enctype="multipart/form-data">
-            <?php wp_nonce_field('pdf_upload_metabox', 'pdf_upload_metabox_nonce'); ?>
-            
-            <div class="form-field">
-                <label for="pdf_file">Faça o upload do arquivo PDF:</label>
-                <input type="file" id="pdf_file" name="pdf_file" accept=".pdf"><br>
-                <small>Use apenas formatos .pdf</small>
-            </div>
-            
-            <div class="form-field">
-                <label for="pdf_image">Escolher Imagem:</label>
-                <input type="button" id="choose_image_button" class="button" value="Escolher Imagem">
-                <input type="hidden" id="pdf_image" name="pdf_image"><br>
-                <small>Escolha a imagem para ser utilizada no relatório.</small>
-            </div>
+function pagina_relatorios_pdf() {
 
-            <div class="form-field">
-                <label for="pdf_year">Data do Relatório:</label>
-                <input type="date" id="pdf_year" name="pdf_year" pattern="\d{4}" placeholder="YYYY">
-            </div>
-
-            <div class="form-field">
-                <input type="button" id="submit_button" class="button button-primary" value="Adicionar Relatório">
-            </div>
-        </form>
-
-        <hr>
-
-        <h2>Relatórios Adicionados</h2>
-
-        
-        <?php display_added_reports(); ?>
-
-        
-    </div>
-
-    <style>
-        .form-field {
-            margin-bottom: 20px;
+    if (isset($_GET['delete'])) {
+        $delete_index = intval($_GET['delete']);
+        $relatorios = get_option('relatorios_pdf_carregados');
+        if (isset($relatorios[$delete_index])) {
+            unset($relatorios[$delete_index]); // Remove o item da lista
+            $relatorios = array_values($relatorios); // Reindexa o array
+            update_option('relatorios_pdf_carregados', $relatorios);
+            echo '<div class="notice notice-success is-dismissible"><p>Arquivo excluído com sucesso.</p></div>';
         }
+    }
 
-        .wp-list-table {
-            margin-top: 20px;
+    echo '<div class="wrap">';
+    echo '<h1>Upload de Relatórios PDF</h1>';
+    
+    // Formulário de upload
+    echo '<form action="" method="post" enctype="multipart/form-data" class="mb-3">';
+    echo '<div class="form-group">';
+    echo '<input type="file" class="form-control-file" name="relatorio_pdf" required>';
+    echo '</div>';
+    echo '<button type="submit" name="submit_pdf" class="btn btn-primary">Carregar Relatório</button>';
+    echo '</form>';
+    
+    // Verificar se o formulário foi submetido
+    if (isset($_POST['submit_pdf'])) {
+        if (!function_exists('wp_handle_upload')) {
+            require_once(ABSPATH . 'wp-admin/includes/file.php');
         }
-    </style>
-
-    <?php
-    // Adicione os scripts no final do documento
-    wp_enqueue_script('jquery');
-    wp_enqueue_media();
-    ?>
-    <script>
-        jQuery(document).ready(function($) {
-            var pdfUploadForm = document.getElementById('pdf_upload_form');
-            var submitButton = document.getElementById('submit_button');
-            var chooseImageButton = document.getElementById('choose_image_button');
-            var pdfImageField = document.getElementById('pdf_image');
-
-            submitButton.addEventListener('click', function (event) {
-                event.preventDefault();
-
-                var formData = new FormData(pdfUploadForm);
-
-                // Realiza o envio do formulário usando AJAX
-                $.ajax({
-                    type: 'POST',
-                    url: '<?php echo esc_url(admin_url('admin-post.php')); ?>',
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function (response) {
-                        // Tratar a resposta, se necessário
-                        console.log(response);
-                    },
-                    error: function (error) {
-                        console.error(error);
-                    }
-                });
-            });
-
-            chooseImageButton.addEventListener('click', function (event) {
-                event.preventDefault();
-
-                // Certifique-se de que o jQuery está carregado antes de usar wp.media
-                if (typeof jQuery !== 'undefined' && typeof jQuery.fn.media !== 'undefined') {
-                    var imageUploader = wp.media({
-                        title: 'Escolher Imagem',
-                        multiple: false,
-                        library: { type: 'image' },
-                    });
-
-                    imageUploader.on('select', function () {
-                        var attachment = imageUploader.state().get('selection').first().toJSON();
-                        pdfImageField.value = attachment.url;
-                    });
-
-                    imageUploader.open();
-                } else {
-                    console.error('jQuery or wp.media is not defined.');
-                }
-            });
-        });
-    </script>
-    <?php
-}
-
-// Exibe os relatórios adicionados em uma tabela
-function display_added_reports() {
-    $reports = get_posts(array(
-        'post_type' => 'page',
-        'meta_key' => 'pdf_file',
-        'meta_value' => '',
-    ));
-
-    if (!empty($reports)) {
-        ?>
-        <table class="wp-list-table widefat fixed striped">
-            <thead>
-                <tr>
-                    <th>Arquivo PDF</th>
-                    <th>Imagem</th>
-                    <th>Ano</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($reports as $report) : ?>
-                    <tr>
-                        <td><?php echo get_post_meta($report->ID, 'pdf_file', true); ?></td>
-                        <td><?php echo get_post_meta($report->ID, 'pdf_image', true); ?></td>
-                        <td><?php echo get_post_meta($report->ID, 'pdf_year', true); ?></td>
-                        <td><a href="#" class="delete-report" data-report-id="<?php echo $report->ID; ?>">Remover</a></td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-
-        <script>
-            // Adiciona script para confirmar a exclusão do relatório via AJAX
-            document.addEventListener('DOMContentLoaded', function () {
-                var deleteButtons = document.querySelectorAll('.delete-report');
-
-                deleteButtons.forEach(function (button) {
-                    button.addEventListener('click', function (event) {
-                        event.preventDefault();
-                        var reportId = button.getAttribute('data-report-id');
-                        var confirmDelete = confirm('Tem certeza de que deseja excluir este relatório?');
-
-                        if (confirmDelete) {
-                            // Executa a exclusão via AJAX
-                            var xhr = new XMLHttpRequest();
-                            xhr.open('POST', '<?php echo admin_url('admin-ajax.php'); ?>');
-                            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-                            xhr.onload = function () {
-                                if (xhr.status === 200) {
-                                    // Recarrega a página após a exclusão
-                                    location.reload();
-                                }
-                            };
-                            xhr.send('action=delete_report&report_id=' + reportId);
-                        }
-                    });
-                });
-            });
-        </script>
-        <?php
-    } else {
-        echo '<p>Nenhum relatório adicionado.</p>';
-    }
-}
-
-// Função para deletar um relatório (ajustar conforme necessário)
-add_action('wp_ajax_delete_report', 'delete_report_ajax');
-function delete_report_ajax() {
-    $report_id = isset($_POST['report_id']) ? intval($_POST['report_id']) : 0;
-
-    if ($report_id > 0) {
-        wp_delete_post($report_id, true); // true para excluir permanentemente
-    }
-
-    wp_die();
-}
-
-function delete_report($report_id) {
-    wp_delete_post($report_id, true); // true para excluir permanentemente
-}
-
-add_action('save_post', 'save_pdf_upload_metabox');
-function save_pdf_upload_metabox($post_id) {
-    if (!isset($_POST['pdf_upload_metabox_nonce']) || !wp_verify_nonce($_POST['pdf_upload_metabox_nonce'], 'pdf_upload_metabox')) {
-        return;
-    }
-
-    if (!current_user_can('edit_post', $post_id)) {
-        return;
-    }
-
-    if (isset($_FILES['pdf_file'])) {
+        $uploadedfile = $_FILES['relatorio_pdf'];
         $upload_overrides = array('test_form' => false);
-        $pdf_file = wp_handle_upload($_FILES['pdf_file'], $upload_overrides);
-
-        if (!empty($pdf_file['url'])) {
-            update_post_meta($post_id, 'pdf_file', $pdf_file['url']);
+        $movefile = wp_handle_upload($uploadedfile, $upload_overrides);
+    
+        if ($movefile && empty($movefile['error'])) {
+            echo "<p>Arquivo carregado com sucesso!</p>";
+    
+            // Salvar a URL do arquivo em uma opção do WordPress
+            $relatorios = get_option('relatorios_pdf_carregados');
+            if (empty($relatorios)) {
+                $relatorios = array();
+            }
+            $relatorios[] = $movefile['url'];
+            update_option('relatorios_pdf_carregados', $relatorios);
+        } else {
+            echo "<p>Erro ao carregar arquivo: " . $movefile['error'] . "</p>";
         }
     }
-
-    if (isset($_POST['pdf_image'])) {
-        $pdf_image = sanitize_text_field($_POST['pdf_image']);
-        update_post_meta($post_id, 'pdf_image', $pdf_image);
+    
+    // Listagem de arquivos PDF carregados
+    $relatorios = get_option('relatorios_pdf_carregados');
+    if (!empty($relatorios)) {
+        echo '<h2>Relatórios Carregados</h2>';
+        echo '<table class="table">';
+        echo '<thead class="thead-dark"><tr><th>#</th><th>Nome do Arquivo</th><th>Ações</th></tr></thead>';
+        echo '<tbody>';
+        foreach ($relatorios as $index => $url) {
+            $filename = basename($url);
+            echo '<tr>';
+            echo '<td>' . ($index + 1) . '</td>';
+            echo '<td>' . esc_html($filename) . '</td>';
+            echo '<td><a href="' . esc_url($url) . '" target="_blank" class="btn btn-success btn-sm">Visualizar</a> ';
+            echo '<a href="?page=gerenciar-relatorios-pdf&delete=' . $index . '" class="btn btn-danger btn-sm">Excluir</a></td>';
+            echo '</tr>';
+        }
+        
+        echo '</tbody>';
+        echo '</table>';
+    } else {
+        echo '<p>Nenhum relatório carregado ainda.</p>';
     }
-
-    if (isset($_POST['pdf_year'])) {
-        $pdf_year = sanitize_text_field($_POST['pdf_year']);
-        update_post_meta($post_id, 'pdf_year', $pdf_year);
-    }
+    
+    echo '</div>'; // Fecha .wrap
 }
 
+add_action('admin_menu', 'adicionar_menu_relatorios_pdf');
 
 
 /////////FORMULARIO DE ENVIO DE CANDIDATURAS/////
