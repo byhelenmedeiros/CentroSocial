@@ -182,23 +182,40 @@ $wp_customize->add_section('nossa_instituicao_settings', array(
         'section' => 'nossa_instituicao_settings',
         'type' => 'text',
     ));
-    $wp_customize->add_section('logo_section', array(
-        'title' => 'Logos',
+            
+    //LOGOTIPOS
+
+    $wp_customize->add_section('custom_logo_section', array(
+        'title'    => __('Logos Personalizados', 'seu-text-domain'),
         'priority' => 30,
     ));
 
+    // Cria configurações e controles para cada logo
     for ($i = 1; $i <= 8; $i++) {
-        $wp_customize->add_setting("logo_image_$i", array(
-            'default' => '',
-            'sanitize_callback' => 'absint',
+        // Adiciona a configuração
+        $wp_customize->add_setting("custom_logo_image_$i", array(
+            'default'           => '',
+            'sanitize_callback' => 'absint', // Assume que está salvando o ID do anexo da imagem
+            'capability'        => 'edit_theme_options',
+            'type'              => 'theme_mod',
         ));
 
-        $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, "logo_image_{$i}_control", array(
-            'label' => "Faça o upload da Logo $i",
-            'section' => 'logo_section',
-            'settings' => "logo_image_$i",
+        // Adiciona o controle de imagem
+        $wp_customize->add_control(new WP_Customize_Cropped_Image_Control($wp_customize, "custom_logo_image_{$i}_control", array(
+            'label'    => sprintf(__('Logo %d', 'seu-text-domain'), $i),
+            'section'  => 'custom_logo_section',
+            'settings' => "custom_logo_image_$i",
+            'width'    => 300,
+            'height'   => 150,
+            'flex_width'  => true, // Pode ser ajustado para permitir largura flexível
+            'flex_height' => true, // Pode ser ajustado para permitir altura flexível
         )));
-    }
+    
+}
+
+// Adiciona a ação para carregar o customizador com suas configurações
+add_action('customize_register', 'custom_logo_customizer_settings');
+
 
         // Seção para configurações do footer
         $wp_customize->add_section('footer_settings', array(

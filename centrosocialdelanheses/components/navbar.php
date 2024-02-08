@@ -3,12 +3,20 @@
         <div class="row">
             <div class="col-lg-12 col-sm-12 text-center">
                 <div class="main-menu-wrap">
-                    <!-- logo -->
+              <!-- logo -->
                     <div class="site-logo">
                         <a href="<?php echo esc_url(home_url()); ?>">
-                            <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/img/Logo CPSL.png'); ?>" alt="<?php echo esc_attr(get_bloginfo('name')); ?>">
+                            <?php
+                            $custom_logo_id = get_theme_mod('custom_logo');
+                            $custom_logo_url = wp_get_attachment_image_url($custom_logo_id, 'full');
+                            
+                            if ($custom_logo_url) {
+                                echo '<img src="' . esc_url($custom_logo_url) . '" alt="' . esc_attr(get_bloginfo('name')) . '">';
+                            } 
+                            ?>
                         </a>
                     </div>
+
                     <!-- menu start -->
                     <nav class="main-menu">
                         <?php
