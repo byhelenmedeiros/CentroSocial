@@ -282,13 +282,13 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-6 col-md-12">
-					<p>Copyrights &copy; 2015 - <a href="https://imransdesign.com/"> CPS Lanheses .</a>Todos os direitos reservados<br>
+					<p>Copyrights &copy; 2023 -> CPS Lanheses .</a>Todos os direitos reservados<br>
 					</p>
 				</div>
 				<div class="col-lg-6 text-right col-md-12">
 					<div class="social-icons">
 						<ul>
-							<li><a href="https://www.facebook.com/profile.php?id=281140885344385&paipv=0&eav=AfYOSUiZOIoLV0PV5X70FkrAmiWGYaPN56GN8oFqghp_6A_tiErZ9JDCxFEQskgbzxo&_rdr" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
+							<li><a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
 						</ul>
 					</div>
 				</div>
