@@ -36,22 +36,3 @@
     </div>
 </div>
 
-<!-- search area -->
-<div class="search-area">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <span class="close-btn"><i class="fas fa-window-close"></i></span>
-                <div class="search-bar">
-                    <div class="search-bar-tablecell">
-                        <h3><?php esc_html_e('Search For:', 'centrosocial'); ?></h3>
-                        <form role="search" method="get" class="search-form" action="<?php echo esc_url(home_url('/')); ?>">
-                            <input type="text" class="search-field" placeholder="<?php esc_attr_e('Keywords', 'centrosocial'); ?>" value="<?php echo get_search_query(); ?>" name="s" />
-                            <button type="submit"><?php esc_html_e('Search', 'centrosocial'); ?> <i class="fas fa-search"></i></button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>

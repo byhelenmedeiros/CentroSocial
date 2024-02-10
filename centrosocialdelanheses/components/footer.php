@@ -37,7 +37,7 @@
             <div class="col-lg-3 col-md-6">
                 <div class="footer-box subscribe">
                     <h2 class="widget-title">Saiba sobre nossas novidades:</h2>
-                    <p>Coloca teu email para mais</p>
+                    <p>Coloca o seu e-mail acompanhar novidades</p>
                     <form action="index.html">
                         <input type="email" placeholder="Email">
                         <button type="submit"><i class="fas fa-paper-plane"></i></button>

@@ -98,7 +98,108 @@
 
                             <!-- Campos específicos para cada opção -->
                             <div id="option1Fields" style="display:none;">
-                                <!-- Campos específicos para a opção 1 (Centro do Dia) -->
+
+                            <div class="form-group">
+                                        <label for="sns">Nome completo:</label>
+                                        <input  type="text" name="name" id="name">
+                            </div>
+                            
+							<input type="tel" placeholder="telemovel" name="phone" id="phone">
+							<input type="email" placeholder="Email" name="email" id="email">
+							</p>
+							<p>
+							<input type="text" placeholder="Relação ou Parentesco" name="relationship" id="relationship">
+							<input type="text" placeholder="Código Postal" name="motherPostalCode" id="motherPostalCode">
+							<input type="text" placeholder="Localidade" name="motherCity" id="motherCity">
+							</p>
+							
+							<div class="container">
+								<form>
+									<table class="table">
+										<thead>
+											<tr>
+												<th>SERVIÇOS</th>
+												<th>Periodicidade</th>
+												<th>Nº de vezes</th>
+												<th>Outros</th>
+												<th>Qual?</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>Refeições</td>
+												<td>
+													<input type="checkbox" id="refeicao_2a6"><label for="refeicao_2a6"> 2ª a 6ª</label><br>
+													<input type="checkbox" id="refeicao_sab"><label for="refeicao_sab"> 2ª a SÁB.</label><br>
+													<input type="checkbox" id="refeicao_dom"><label for="refeicao_dom"> 2ª a DOM.</label>
+												</td>
+												<td>
+													<input type="checkbox" id="refeicao_1x"><label for="refeicao_1x"> 1x</label><br>
+													<input type="checkbox" id="refeicao_2x"><label for="refeicao_2x"> 2x</label><br>
+													<input type="checkbox" id="refeicao_3x"><label for="refeicao_3x"> 3x</label><br>
+													<input type="checkbox" id="refeicao_4x"><label for="refeicao_4x"> 4x</label>
+												</td>
+												<td><input type="checkbox"></td>
+												<td><input type="text" class="form-control"></td>
+											</tr>
+											<tr>
+												<td>Higiene Pessoal</td>
+												<td>
+													<input type="checkbox" id="refeicao_2a6"><label for="refeicao_2a6"> 2ª a 6ª</label><br>
+													<input type="checkbox" id="refeicao_sab"><label for="refeicao_sab"> 2ª a SÁB.</label><br>
+													<input type="checkbox" id="refeicao_dom"><label for="refeicao_dom"> 2ª a DOM.</label>
+												</td>
+												<td>
+													<input type="checkbox" id="refeicao_1x"><label for="refeicao_1x"> 1x</label><br>
+													<input type="checkbox" id="refeicao_2x"><label for="refeicao_2x"> 2x</label><br>
+													<input type="checkbox" id="refeicao_3x"><label for="refeicao_3x"> 3x</label><br>
+													<input type="checkbox" id="refeicao_4x"><label for="refeicao_4x"> 4x</label>
+												</td>
+												<td><input type="checkbox"></td>
+												<td><input type="text" class="form-control"></td>
+											</tr>
+											<tr>
+												<td>Higiene Habitacional</td>
+												<td>
+													<input type="checkbox" id="refeicao_2a6"><label for="refeicao_2a6"> 2ª a 6ª</label><br>
+													<input type="checkbox" id="refeicao_sab"><label for="refeicao_sab"> 2ª a SÁB.</label><br>
+													<input type="checkbox" id="refeicao_dom"><label for="refeicao_dom"> 2ª a DOM.</label>
+												</td>
+												<td>
+													<input type="checkbox" id="refeicao_1x"><label for="refeicao_1x"> 1x</label><br>
+													<input type="checkbox" id="refeicao_2x"><label for="refeicao_2x"> 2x</label><br>
+													<input type="checkbox" id="refeicao_3x"><label for="refeicao_3x"> 3x</label><br>
+													<input type="checkbox" id="refeicao_4x"><label for="refeicao_4x"> 4x</label>
+												</td>
+												<td><input type="checkbox"></td>
+												<td><input type="text" class="form-control"></td>
+											</tr>
+											<tr>
+												<td>Tratamento de Roupa</td>
+												<td>
+													<input type="checkbox" id="refeicao_2a6"><label for="refeicao_2a6"> 2ª a 6ª</label><br>
+													<input type="checkbox" id="refeicao_sab"><label for="refeicao_sab"> 2ª a SÁB.</label><br>
+													<input type="checkbox" id="refeicao_dom"><label for="refeicao_dom"> 2ª a DOM.</label>
+												</td>
+												<td>
+													<input type="checkbox" id="refeicao_1x"><label for="refeicao_1x"> 1x</label><br>
+													<input type="checkbox" id="refeicao_2x"><label for="refeicao_2x"> 2x</label><br>
+													<input type="checkbox" id="refeicao_3x"><label for="refeicao_3x"> 3x</label><br>
+													<input type="checkbox" id="refeicao_4x"><label for="refeicao_4x"> 4x</label>
+												</td>
+												<td><input type="checkbox"></td>
+												<td><input type="text" class="form-control"></td>
+											</tr>
+					
+										</tbody>
+									</table>
+								</form>
+							</div>
+							<H6>OUTRAS INFORMAÇÕES SOBRE O(A) CANDIDATO(A):</H6>
+							<input type="text" name="specificSupport" id="specificSupport">
+					</p>
+				  </div>
+				  
                             </div>
 
                             <div id="option2Fields" style="display:none;">

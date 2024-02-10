@@ -7,7 +7,7 @@
 				<div class="col-lg-8 offset-lg-2 text-center">
 					<div class="breadcrumb-text">
 						<h1>Quem Somos</h1>
-						<p>é o que nos move</p>
+						<p>Uma instituição jovem em constante evolução</p>
 					</div>
 				</div>
 			</div>
@@ -76,7 +76,7 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</div></div>
 	</div>
 	<!-- end featured section -->
 

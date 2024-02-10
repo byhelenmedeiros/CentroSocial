@@ -11,50 +11,35 @@
         </div>
 
         <div class="row">
-            <?php
-            $items = array(
-                'creche' => array(
-                    'icon' => get_theme_mod('creche_icon', 'fas fa-child'),
-                    'button_color' => get_theme_mod('creche_button_color', '#ff6600'),
-                    'link' => 'creche.html',
-                    'title' => 'Creche',
-                ),
+    <?php
+    $items = array(
+        'creche_'               => 'Creche',
+        'estrutura_residencial' => 'Estrutura Residencial',
+        'centro_de_dia'        => 'Centro de Dia',
+        'apoio_domiciliario'   => 'Apoio Domiciliário',
+    );
 
-                'estrutura_residencial' => array(
-                    'icon' => get_theme_mod('estrutura_residencial_icon', 'fas fa-child'),
-                    'button_color' => get_theme_mod('estrutura_residencial_button_color', '#ff6600'),
-                    'link' => 'estrutura.html',
-                    'title' => 'Estrutura Residencial',
-                ),
-
-
-                'centro_de_dia' => array(
-                    'icon' => get_theme_mod('centro_de_dia_icon', 'fas fa-child'),
-                    'button_color' => get_theme_mod('centrodedia_button_color', '#ff6600'),
-                    'link' => 'CentrodeDia.html',
-                    'title' => 'Centro de Dia',
-                ),
-                'apoio_domiciliario' => array(
-                    'icon' => get_theme_mod('apoio_domiciliario_icon', 'fas fa-child'),
-                    'button_color' => get_theme_mod('apoio_domiciliario_button_color', '#ff6600'),
-                    'link' => 'adomicilio.html',
-                    'title' => 'Apoio Domiciliário',
-                ),
-                
-            );
-
-            foreach ($items as $item) :
-            ?>
-                <div class="col-lg-3 col-md-6 text-center">
-                    <div class="single-product-item">
-                        <div class="product-image">
-                            <a href="<?php echo esc_url($item['link']); ?>"><img src="assets/img/icones/<?php echo esc_attr($item['title']); ?>.png" alt=""></a>
-                        </div>
-                        <h3><?php echo esc_html($item['title']); ?></h3>
-                        <a href="<?php echo esc_url($item['link']); ?>" class="cart-btn" style="background-color: <?php echo esc_attr($item['button_color']); ?>"><i class="<?php echo esc_attr($item['icon']); ?>"></i> <?php esc_html_e('Saiba Mais', 'seu-tema-textdomain'); ?></a>
+    foreach ($items as $item_key => $item_title):
+        $image_url = get_theme_mod($item_key . '_image');
+        $button_color = get_theme_mod($item_key . '_button_color', '#ff6600');
+        $icon_class = get_theme_mod($item_key . '_icon', 'fas fa-child');
+        $link = get_theme_mod($item_key . '_link');
+        ?>
+        <div class="col-lg-3 col-md-6 text-center">
+            <div class="single-product-item">
+                <?php if ($image_url): ?>
+                    <div class="product-image">
+                        <img src="<?php echo esc_url($image_url); ?>" alt="<?php echo esc_attr($item_title); ?>">
                     </div>
-                </div>
-            <?php endforeach; ?>
+                <?php endif; ?>
+                <h3><?php echo esc_html($item_title); ?></h3>
+                <a href="<?php echo esc_url($link); ?>" class="cart-btn" style="background-color: <?php echo esc_attr($button_color); ?>"><i class="<?php echo esc_attr($icon_class); ?>"></i> Saiba Mais</a>
+            </div>
+        </div>
+    <?php endforeach; ?>
+</div>
+
+
         </div>
     </div>
 </div>
@@ -63,7 +48,7 @@
         <div class="row">
             <div class="col-lg-6 col-md-12">
                 <div class="abt-bg">
-                    <a href="<?php echo esc_url(get_theme_mod('nossa_instituicao_video_link', 'https://www.youtube.com/watch?v=DBLlFWYcIGQ')); ?>" class="video-play-btn popup-youtube"><i class="fas fa-play"></i></a>
+                    <a href="<?php echo esc_url(get_theme_mod('nossa_instituicao_video_link', '')); ?>" class="video-play-btn popup-youtube"><i class="fas fa-play"></i></a>
                 </div>
             </div>
             <div class="col-lg-6 col-md-12">

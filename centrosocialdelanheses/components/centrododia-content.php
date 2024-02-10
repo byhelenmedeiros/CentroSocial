@@ -63,16 +63,16 @@
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img src="assets/img/centro do dia (1).JPG" class="d-block w-100 custom-image" alt="...">
+                <img src="/assets/img/centrodedia_(1).jpg" class="d-block w-100 custom-image" alt="...">
             </div>
             <div class="carousel-item">
-                <img src="assets/img/centro do dia (2).JPG" class="d-block w-100 custom-image" alt="...">
+                <img src="/assets/img/centrodedia_(1).jpg" class="d-block w-100 custom-image" alt="...">
             </div>
             <div class="carousel-item">
-                <img src="assets/img/centro do dia (3).JPG" class="d-block w-100 custom-image" alt="...">
+                <img src="/assets/img/centrodedia_(2).jpg" class="d-block w-100 custom-image" alt="...">
             </div>
             <div class="carousel-item">
-                <img src="assets/img/creche (4).JPG" class="d-block w-100 custom-image" alt="...">
+                <img src="./assets/img/centrodedia_(3).jpg" class="d-block w-100 custom-image" alt="...">
             </div>
         </div>
         <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -139,15 +139,15 @@
 
 	
 	<!-- jquery -->
-	<script src="assets/js/jquery-1.11.3.min.js"></script>
+	<script src="/assets/js/jquery-1.11.3.min.js"></script>
 	<!-- bootstrap -->
-	<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+	<script src="/assets/bootstrap/js/bootstrap.min.js"></script>
 	<!-- count down -->
-	<script src="assets/js/jquery.countdown.js"></script>
+	<script src="/assets/js/jquery.countdown.js"></script>
 	<!-- isotope -->
-	<script src="assets/js/jquery.isotope-3.0.6.min.js"></script>
+	<script src="/assets/js/jquery.isotope-3.0.6.min.js"></script>
 	<!-- waypoints -->
-	<script src="assets/js/waypoints.js"></script>
+	<script src="/assets/js/waypoints.js"></script>
 	<!-- owl carousel -->
 	<script src="assets/js/owl.carousel.min.js"></script>
 	<!-- magnific popup -->

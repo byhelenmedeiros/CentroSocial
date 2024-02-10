@@ -67,53 +67,70 @@ function theme_customizer_settings($wp_customize) {
 
 
 
-$wp_customize->add_section('respostas_sociais_settings', array(
-    'title' => __('Configurações de Respostas Sociais', 'centrosocial'),
-    'priority' => 30,
-));
-
-$items = array(
-    'creche' => 'Creche',
-    'estrutura_residencial' => 'Estrutura Residencial',
-    'centro_de_dia' => 'Centro de Dia',
-    'apoio_domiciliario' => 'Apoio Domiciliário',
-);
-
-foreach ($items as $item_key => $item_title) {
-    // Configuração da imagem
-    $wp_customize->add_setting($item_key . '_image', array(
-        'sanitize_callback' => 'esc_url_raw',
+    $wp_customize->add_section('respostas_sociais_settings', array(
+        'title'    => __('Configurações de Respostas Sociais', 'centrosocial'),
+        'priority' => 30,
     ));
 
-    $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, $item_key . '_image', array(
-        'label' => __('Imagem para ' . $item_title, 'centrosocial'),
-        'section' => 'respostas_sociais_settings',
-        'settings' => $item_key . '_image',
-    )));
+    // Lista dos itens para personalização
+    $items = array(
+        'creche_'               => 'Creche',
+        'estrutura_residencial' => 'Estrutura Residencial',
+        'centro_de_dia'        => 'Centro de Dia',
+        'apoio_domiciliario'   => 'Apoio Domiciliário',
+    );
 
-    // Configuração do link
-    $wp_customize->add_setting($item_key . '_link', array(
-        'sanitize_callback' => 'esc_url_raw',
-    ));
+    foreach ($items as $item_key => $item_title) {
+        // Configuração para a imagem
+        $wp_customize->add_setting($item_key . '_image', array(
+            'default'           => '',
+            'sanitize_callback' => 'esc_url_raw',
+        ));
 
-    $wp_customize->add_control($item_key . '_link', array(
-        'label' => __('Link para ' . $item_title, 'centrosocial'),
-        'section' => 'respostas_sociais_settings',
-        'type' => 'url',
-    ));
+        $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, $item_key . '_image', array(
+            'label'    => sprintf(__('Imagem para %s', 'centrosocial'), $item_title),
+            'section'  => 'respostas_sociais_settings',
+            'settings' => $item_key . '_image',
+        )));
 
-    // Configuração da cor do botão
-    $wp_customize->add_setting($item_key . '_button_color', array(
-        'default' => '#ff6600', // Adicione a cor padrão desejada
-        'sanitize_callback' => 'sanitize_hex_color',
-    ));
+        // Configuração para o link
+        $wp_customize->add_setting($item_key . '_link', array(
+            'default'           => '',
+            'sanitize_callback' => 'esc_url_raw',
+        ));
 
-    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, $item_key . '_button_color', array(
-        'label' => __('Cor do botão para ' . $item_title, 'centrosocial'),
-        'section' => 'respostas_sociais_settings',
-    )));
-}
+        $wp_customize->add_control($item_key . '_link', array(
+            'label'    => sprintf(__('Link para %s', 'centrosocial'), $item_title),
+            'section'  => 'respostas_sociais_settings',
+            'type'     => 'url',
+            'settings' => $item_key . '_link',
+        ));
 
+        // Configuração da cor do botão
+        $wp_customize->add_setting($item_key . '_button_color', array(
+            'default'           => '#ff6600',
+            'sanitize_callback' => 'sanitize_hex_color',
+        ));
+
+        $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, $item_key . '_button_color', array(
+            'label'    => sprintf(__('Cor do botão para %s', 'centrosocial'), $item_title),
+            'section'  => 'respostas_sociais_settings',
+            'settings' => $item_key . '_button_color',
+        )));
+
+        // Configuração do ícone
+        $wp_customize->add_setting($item_key . '_icon', array(
+            'default'           => 'fas fa-child',
+            'sanitize_callback' => 'sanitize_text_field',
+        ));
+
+        $wp_customize->add_control($item_key . '_icon', array(
+            'label'    => sprintf(__('Ícone para %s', 'centrosocial'), $item_title),
+            'section'  => 'respostas_sociais_settings',
+            'type'     => 'text',
+            'settings' => $item_key . '_icon',
+        ));
+    }
     
     // Seção Respostas Sociais
     $wp_customize->add_section('respostas_sociais_section', array(
@@ -655,3 +672,4 @@ function candidaturas_page_content() {
     }
     echo '</tbody></table></div>';
 }
+
